@@ -1,6 +1,6 @@
  
 
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { FC } from 'react';
 import bedroom from "../../../public/icons/bedroom.svg";
 import area from "../../../public/icons/area.svg";
@@ -14,7 +14,7 @@ import payment from "../../../public/icons/payment-plan.svg";
   bedrooms: string;
   size: string;
   paymentPlan: string;
-  image: any;
+  image: StaticImageData | string
 }
 
 interface PropertyCardProps {

@@ -2,10 +2,11 @@
 
 
 import { FC } from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
+
 
 interface ServiceCardProps {
-  icon: any;
+  icon: StaticImageData | string;
   title: string;
   description: string;
 }

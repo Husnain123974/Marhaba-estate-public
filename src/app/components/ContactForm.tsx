@@ -12,7 +12,7 @@ const countries = [
 const ContactForm = () => {
   const [country, setCountry] = useState("ae");
 
-  const handleCountryChange = (event:any) => {
+  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCountry(event.target.value);
   };
 

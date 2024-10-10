@@ -1,5 +1,5 @@
 'use client'
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Rating from '@mui/material/Rating';  
 import { styled } from '@mui/system';
 
@@ -8,7 +8,7 @@ interface RatingProps {
   review: string;
   reviewerName: string;
   reviewerLocation: string;
-  reviewerImage: any;  
+  reviewerImage: StaticImageData | string; 
 }
 
 const CustomRating = styled(Rating)({

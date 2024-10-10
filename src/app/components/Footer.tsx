@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
           <Link href="/" className="hover:underline">
             HOME
           </Link>
-          <Link href="/about-us" className="hover:underline">
+          <Link href="/about" className="hover:underline">
             ABOUT US
           </Link>
           <Link href="/services" className="hover:underline">

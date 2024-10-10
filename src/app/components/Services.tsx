@@ -1,7 +1,7 @@
  
 import { FC } from 'react';
 import ServiceCard from './ServiceCard';
-
+import  { StaticImageData } from 'next/image';
 import companySVG from '../../../public/icons/company-register.svg'
 import mortageSVG from '../../../public/icons/mortage.svg'
 import bankSVG from '../../../public/icons/bank-account.svg'
@@ -11,7 +11,7 @@ import goldenVisaSVG from '../../../public/icons/golden-visa.svg'
  
 
 interface Service {
-  icon: JSX.Element;
+  icon: StaticImageData | string;
   title: string;
   description: string;
 }
@@ -63,10 +63,9 @@ const Services: FC = () => {
         Our Services
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service, index) => (
-          <div className="w-full max-w-xs mx-auto sm:max-w-sm lg:max-w-full">
+      {services.map((service, index) => (
+          <div className="w-full max-w-xs mx-auto sm:max-w-sm lg:max-w-full" key={index}>
             <ServiceCard
-              key={index}
               icon={service.icon}
               title={service.title}
               description={service.description}
