@@ -42,7 +42,7 @@ const Ratings = () => {
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6 p-5">
        
-        <h2 className="text-4xl font-bold text-white">What Our Clients Say</h2>
+        <h2 className="text-4xl 440:text-2xl font-bold text-white">What Our Clients Say</h2>
 
         {/* Navigation Arrows */}
         <div className="flex space-x-4">
