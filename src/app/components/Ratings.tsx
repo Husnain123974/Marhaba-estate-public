@@ -1,5 +1,4 @@
-// pages/FeaturedProperties.tsx
- 
+
 import img1 from "../../../public/images/client-1.png";
 import img2 from "../../../public/images/client-2.png";
 import img3 from "../../../public/images/client-3.png";
@@ -10,7 +9,7 @@ import Image from 'next/image';
 import RatingCard from "./RatingCard";
 
 const Ratings = () => {
-  // Array of ratings data
+ 
   const ratings = [
     {
       stars: 5,
@@ -18,7 +17,7 @@ const Ratings = () => {
         'Lorem ipsum dolor sit amet consectetur. Tellus volutpat quis hendrerit erat ut. Porttitor lobortis.',
       reviewerName: 'Abdullah',
       reviewerLocation: 'Dubai',
-      reviewerImage: img1, // Use your actual image path
+      reviewerImage: img1, 
     },
     {
       stars: 4,
@@ -26,7 +25,7 @@ const Ratings = () => {
         'Lorem ipsum dolor sit amet consect hendrerit erat ut. Porttitor lobortis ellus volutpat quis hendrerit erat ut.',
       reviewerName: 'Ali',
       reviewerLocation: 'Abu Dhabi',
-      reviewerImage: img2, // Use your actual image path
+      reviewerImage: img2,  
     },
     {
       stars: 5,
@@ -34,7 +33,7 @@ const Ratings = () => {
         'Lorem ipsum dolor sit amet consect hendrerit erat ut. Porttitor lobortis ellus amet consect hendrerit erat ut. Porttitor lobortis ellu volutpat quis hendrerit erat ut.',
       reviewerName: 'Sara',
       reviewerLocation: 'Sharjah',
-      reviewerImage: img3, // Use your actual image path
+      reviewerImage: img3,  
     },
   ];
 
@@ -42,17 +41,17 @@ const Ratings = () => {
     <div className="w-full py-0 px-8">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6 p-5">
-        {/* Title */}
+       
         <h2 className="text-4xl font-bold text-white">What Our Clients Say</h2>
 
         {/* Navigation Arrows */}
         <div className="flex space-x-4">
-          {/* Left Arrow */}
+       
           <button className="w-10 h-10   rounded-full flex items-center justify-center">
             <Image src={backSVG} alt='back svg '/>
           </button>
 
-          {/* Right Arrow */}
+      
           <button className="w-10 h-10   rounded-full flex items-center justify-center">
           <Image src={nextSVG} alt='next svg '/>
           </button>

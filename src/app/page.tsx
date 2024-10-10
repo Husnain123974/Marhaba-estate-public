@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
-import PropertyCard from "./components/PropertyCard";
-import NavBar from "./components/Navbar";
+ 
 import HeroSection from "./components/HeroSection";
 import FeaturedProperties from "./components/FeaturedProperties";
 import GreyStructures from "./components/GreyStructures";
@@ -15,20 +12,16 @@ export default function Home() {
   return (
     <div className="bg-black min-h-screen text-white">
    
-
      
-      <div className="pt-20"> {/* Assuming the navbar is around 4rem (16px * 4 = 64px = 4rem) */}
+      <div className="pt-20">  
         <HeroSection />
       </div>
 
-      
-        {/* Properties listing starting from here   */}
-       <div className=" top-[851px] p-[3rem]">
 
+      <div className=" top-[851px] p-[3rem]">
        <FeaturedProperties/>
 
        
-      
       <div className="pt-20"> 
          <GreyStructures /> 
       </div>

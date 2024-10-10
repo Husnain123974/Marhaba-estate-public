@@ -4,10 +4,11 @@ import PropertyCard from '../components/PropertyCard';
 import property1 from "../../../public/images/property-1.png";
 import property2 from "../../../public/images/property-2.png";
 import property3 from "../../../public/images/property-3.png";
-import nextSVG from "../../../public/icons/next.svg"
-import backSVG from "../../../public/icons/back-arrow.svg"
-
+import nextSVG from "../../../public/icons/next.svg";
+import backSVG from "../../../public/icons/back-arrow.svg";
 import Image from 'next/image';
+
+
 const FeaturedProperties = () => {
  
   const properties = [
@@ -50,27 +51,26 @@ const FeaturedProperties = () => {
         <h2 className="text-4xl font-bold text-white">Featured Properties</h2>
 
         {/* Navigation Arrows */}
-        <div className="flex space-x-4">
-          {/* Left Arrow */}
+      <div className="flex space-x-4">
+          
           <button className="w-10 h-10   rounded-full flex items-center justify-center">
             <Image src={backSVG} alt='back svg '/>
-          </button>
+          </button> 
 
-          {/* Right Arrow */}
+      
           <button className="w-10 h-10   rounded-full flex items-center justify-center">
           <Image src={nextSVG} alt='next svg '/>
           </button>
         </div>
+
       </div>
 
-        {/* Cards Section */}
+      {/* Cards Section */}
       <div className="grid grid-cols-1 673px:grid-cols-1  sm:grid-cols-2 1160px:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-2">
         {properties.map((property, index) => (
           <PropertyCard key={index} property={property} />
         ))}
       </div>
-
-
 
     </div>
   );

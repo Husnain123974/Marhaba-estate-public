@@ -1,14 +1,14 @@
-// pages/FeaturedProperties.tsx
+
 import PropertyCard from '../components/PropertyCard';
 import img1 from "../../../public/images/grey-1.png"
 import img2 from "../../../public/images/grey-2.png"
 import img3 from "../../../public/images/grey-3.png"
 import nextSVG from "../../../public/icons/next.svg"
 import backSVG from "../../../public/icons/back-arrow.svg"
-
 import Image from 'next/image';
+
 const GreyStructures = () => {
-  // Array of property data
+ 
   const properties = [
     {
       title: 'Imtiaz Properties',
@@ -18,7 +18,7 @@ const GreyStructures = () => {
       bedrooms: '1 & 2',
       size: '500 to 1500',
       paymentPlan: '30/70',
-      image: img1, // Add the path to your image
+      image: img1,  
     },
     {
       title: 'Binghatti Developer',
@@ -28,7 +28,7 @@ const GreyStructures = () => {
       bedrooms: '1 & 2',
       size: '500 to 1500',
       paymentPlan: '30/70',
-      image:  img2, // Add the path to your image
+      image:  img2,  
     },
     {
       title: 'Iman Developer',
@@ -38,7 +38,7 @@ const GreyStructures = () => {
       bedrooms: '1 & 2',
       size: '500 to 1500',
       paymentPlan: '30/70',
-      image: img3, // Add the path to your image
+      image: img3,  
     },
   ];
 
@@ -46,17 +46,16 @@ const GreyStructures = () => {
     <div className="w-full">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6 p-5">
-        {/* Title */}
+  
         <h2 className="text-4xl font-bold text-white">Grey Structures</h2>
 
         {/* Navigation Arrows */}
         <div className="flex space-x-4">
-          {/* Left Arrow */}
+    
           <button className="w-10 h-10   rounded-full flex items-center justify-center">
             <Image src={backSVG} alt='back svg '/>
           </button>
 
-          {/* Right Arrow */}
           <button className="w-10 h-10   rounded-full flex items-center justify-center">
           <Image src={nextSVG} alt='next svg '/>
           </button>

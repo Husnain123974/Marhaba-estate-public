@@ -4,8 +4,8 @@ import React from 'react';
 import facebookSVG from '../../../public/icons/facebook.svg';
 import instagramSVG from '../../../public/icons/instagram.svg';
 import twitterSVG from '../../../public/icons/twitter.svg';
-import logo from '../../../public/images/logo.png';
 
+import logo from '../../../public/images/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
       {/* Copyright Section */}
       <div className="container mx-auto text-center py-4">
         <p className="text-sm text-gray-400">
-          @ Copyright 2024 (Name) - All Rights Reserved.
+          @ Copyright 2024 Marhaba Estates - All Rights Reserved.
         </p>
       </div>
     </footer>

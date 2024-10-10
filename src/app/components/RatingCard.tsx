@@ -23,12 +23,12 @@ const RatingCard = ({ rating }: { rating: RatingProps }) => {
       className="bg-[#1E1E1E] text-white p-6 rounded-lg shadow-lg flex flex-col justify-between"
       style={{ width: '100%', height: '100%' }}
     >
-      {/* Star Rating using Material UI */}
+      
       <div className="flex gap-1 mb-4">
         <CustomRating
           value={rating.stars}  
           readOnly  
-          precision={0.5} // Allows half-star ratings if needed
+          precision={0.5}  
         />
       </div>
 
