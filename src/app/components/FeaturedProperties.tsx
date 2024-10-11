@@ -11,6 +11,7 @@ import Image from 'next/image';
 
 const FeaturedProperties = () => {
  
+  // These are hard coded values, will remove once done with backend 
   const properties = [
     {
       title: 'Imtiaz Properties',

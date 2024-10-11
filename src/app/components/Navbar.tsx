@@ -36,7 +36,7 @@ const NavBar = () => {
             <Link href="/projects">Projects</Link>
           </li>
           <li className="hover:text-gray-400 cursor-pointer">
-            <Link href="/faq">FAQ</Link>
+            <Link href="/contact">FAQ</Link>
           </li>
         </ul>
       </div>
@@ -78,7 +78,7 @@ const NavBar = () => {
             <Link href="/projects" onClick={toggleNav}>Projects</Link>
           </li>
           <li className="hover:text-gray-400 cursor-pointer">
-            <Link href="/faq" onClick={toggleNav}>FAQ</Link>
+            <Link href="/contact" onClick={toggleNav}>FAQ</Link>
           </li>
           <li className="hover:text-gray-400 cursor-pointer">
             <Link href="/contact" onClick={toggleNav}>Contact Us</Link>

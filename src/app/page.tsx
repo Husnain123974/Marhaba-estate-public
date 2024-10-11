@@ -44,10 +44,7 @@ export default function Home() {
        <div className="pt-10">
        <ContactForm />
        </div>
-        
-       <div className="pt-10">
-       <Footer />
-       </div>
+ 
       
 
        </div>

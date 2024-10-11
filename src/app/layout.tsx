@@ -1,11 +1,10 @@
- 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-
 import MUIThemeProvider from "./providers/MUIThemeProvider";
 import NavBar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,12 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <MUIThemeProvider>
-       
-           <NavBar /> 
-            {children}
-       
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <MUIThemeProvider>
+          <NavBar />
+          {children}
+          <div className="pt-20 pb-10 px-10 bg-black">
+            <Footer />
+          </div>
         </MUIThemeProvider>
       </body>
     </html>

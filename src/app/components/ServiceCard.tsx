@@ -1,6 +1,4 @@
 
-
-
 import { FC } from 'react';
 import Image, { StaticImageData } from 'next/image';
 
@@ -8,7 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 interface ServiceCardProps {
   icon: StaticImageData | string;
   title: string;
-  description: string;
+  description: string; 
 }
 
 const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description }) => {

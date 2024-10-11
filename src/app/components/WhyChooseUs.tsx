@@ -3,6 +3,7 @@ import Image from 'next/image';
 import img from "../../../public/images/choose-us.png";  
 import ReasonCard from './ReasonCard';  
 
+// These are hard coded values, will remove once done with backend 
 const reasons = [
   {
     number: '1',

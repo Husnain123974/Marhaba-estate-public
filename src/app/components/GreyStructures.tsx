@@ -1,14 +1,14 @@
 
 import PropertyCard from '../components/PropertyCard';
 import img1 from "../../../public/images/grey-1.png"
-import img2 from "../../../public/images/grey-2.png"
+import img2 from "../../../public/images/grey-2.png" 
 import img3 from "../../../public/images/grey-3.png"
 import nextSVG from "../../../public/icons/next.svg"
 import backSVG from "../../../public/icons/back-arrow.svg"
 import Image from 'next/image';
 
 const GreyStructures = () => {
- 
+  // These are hard coded values, will remove once done with backend 
   const properties = [
     {
       title: 'Imtiaz Properties',

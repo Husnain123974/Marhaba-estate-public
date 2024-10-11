@@ -9,7 +9,7 @@ import Image from 'next/image';
 import RatingCard from "./RatingCard";
 
 const Ratings = () => {
- 
+   // These are hard coded values, will remove once done with backend 
   const ratings = [
     {
       stars: 5,

@@ -15,7 +15,8 @@ interface Service {
   title: string;
   description: string;
 }
-
+  // These are hard coded values, will remove once done with backend 
+  
 const services: Service[] = [
   {
     icon: companySVG,
