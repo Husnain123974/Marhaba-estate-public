@@ -10,7 +10,7 @@ import ContactForm from "@/app/components/ContactForm";
 
  
 // These are hard coded values, will remove once done with backend 
-export const propertyData = [
+const propertyData = [
   {
     title: "Buying Off-Plan Properties",
     image: serviceImg1,  

@@ -36,7 +36,7 @@ export default function RootLayout({
         <MUIThemeProvider>
           <NavBar />
           {children}
-          <div className="pt-20 pb-10 px-10 bg-black">
+          <div className="pt-12 pb-10 px-6 bg-black">
             <Footer />
           </div>
         </MUIThemeProvider>

@@ -29,8 +29,8 @@ const ContactForm = ({ isShowMessage = false, headingText = ''  }: ContactFormPr
   };
 
   return (
-    <div className="bg-black text-white flex justify-center items-center p-8">
-      <div className="bg-[#1E1E1E] w-[100%]  h-auto p-8 rounded-[1.5rem] shadow-lg flex flex-col justify-center items-center" >
+    <div className="bg-black text-white flex justify-center items-center p-8 mt-7">
+      <div className="bg-[#1E1E1E] w-[100%]  h-[auto] min-h-[445px] p-8 rounded-[1.5rem] shadow-lg flex flex-col justify-center items-center" >
         {/* Heading Section */}
         <div className="flex flex-col items-center justify-center mb-8">
         <h2 className="text-3xl font-bold text-center mb-2">
@@ -95,7 +95,7 @@ const ContactForm = ({ isShowMessage = false, headingText = ''  }: ContactFormPr
         <div className="mt-8">
           <button
             type="submit"
-            className="px-12 w-[14rem] py-4 text-black font-semibold rounded-[2.5rem] hover:opacity-90"
+            className="px-12 w-[14rem] py-4 text-white font-semibold rounded-[2.5rem] hover:opacity-90"
             style={{
               background: "linear-gradient(122.79deg, #C39D53 21.1%, #97733E 94.65%)",
             }}
