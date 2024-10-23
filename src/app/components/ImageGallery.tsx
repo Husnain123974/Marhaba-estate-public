@@ -4,15 +4,13 @@ import Img2 from "../../../public/images/detail-img-2.png"
 import Img3 from "../../../public/images/detail-img-3.png"
 import leftArrow from "../../../public/icons/back-arrow.svg"
 import rightArrow from "../../../public/icons/next.svg"
-
-
-import Image from "next/image";
+import Image, { StaticImageData } from 'next/image';
 import { useState } from "react";
  
 
 interface ImageGalleryProps {
-  largeImage: string;
-  smallImages: string[];
+  largeImage: string | StaticImageData ;
+  smallImages: string[] | StaticImageData[];
 }
 
 

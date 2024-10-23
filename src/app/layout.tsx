@@ -5,6 +5,7 @@ import "./globals.css";
 import MUIThemeProvider from "./providers/MUIThemeProvider";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ClientProvider from "@/redux/ClientProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,11 +35,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <MUIThemeProvider>
-          <NavBar />
+        <ClientProvider>
+         <NavBar /> 
           {children}
           <div className="pt-12 pb-10 px-6 bg-black">
             <Footer />
           </div>
+          </ClientProvider>    
         </MUIThemeProvider>
       </body>
     </html>
