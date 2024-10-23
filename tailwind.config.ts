@@ -1,8 +1,9 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
-    darkMode: ["class"],
-    content: [
+  darkMode: ["class"],
+  content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -45,23 +46,29 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
-		  backgroundImage: {
-			'custom-gradient': 'linear-gradient(122.79deg, #C39D53 21.1%, #97733E 94.65%)',
-		  },
+  		backgroundImage: {
+  			'custom-gradient': 'linear-gradient(122.79deg, #C39D53 21.1%, #97733E 94.65%)'
+  		}
   	}
   },
-  plugins: [ function ({ addUtilities }) {
-    const newUtilities = {
-      '.text-gradient': {
-        'background-image': 'linear-gradient(122.79deg, #C39D53 21.1%, #97733E 94.65%)',
-        'background-clip': 'text',
-        '-webkit-background-clip': 'text',
-        'color': 'transparent',
-      },
-    };
-    addUtilities(newUtilities, ['responsive', 'hover']);
-  },
-      require("tailwindcss-animate")
-],
+  plugins: [
+    function ({ addUtilities }: PluginAPI) {
+      const newUtilities = {
+        '.text-gradient': {
+          'background-image': 'linear-gradient(122.79deg, #C39D53 21.1%, #97733E 94.65%)',
+          'background-clip': 'text',
+          '-webkit-background-clip': 'text',
+          'color': 'transparent',
+        },
+      };
+      // Directly add the utilities without variants
+      addUtilities(newUtilities, {
+        respectPrefix: false,
+        respectImportant: false,
+      });
+    },
+    require("tailwindcss-animate"),
+  ],
 };
+
 export default config;

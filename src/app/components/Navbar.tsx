@@ -1,42 +1,48 @@
-'use client'
-import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';  
-import logo from "../../../public/images/logo.png";  
-import contactSVG from '../../../public/icons/contactus.svg'
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";  
-
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import logo from "../../../public/images/logo.png";
+import contactSVG from "../../../public/icons/contactus.svg";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { usePathname } from "next/navigation"; // Import the hook
 const NavBar = () => {
   // State
-  const [navOpen, setNavOpen] = useState(false);  
-  const [selectedItem, setSelectedItem] = useState<string>('');  
+  const [navOpen, setNavOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<string>("");
+  // Check if the current route includes 'admin'
+  const pathname = usePathname();
+  const isAdminRoute = pathname.includes("admin");
 
- // Types
+  // Do not render NavBar if on an admin route
+  if (isAdminRoute) {
+    return null;
+  }
+
+  // Types
   interface NavbarItem {
     name: string;
     href: string;
   }
 
-  //Nav Items array 
-  const navItems  :NavbarItem[] = [
-    { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Services', href: '/services' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'FAQ', href: '/contact' }
+  //Nav Items array
+  const navItems: NavbarItem[] = [
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Projects", href: "/projects" },
+    { name: "FAQ", href: "/contact" },
   ];
 
   // Function to handle nav item click
-  const handleNavClick = (item : NavbarItem) => {
+  const handleNavClick = (item: NavbarItem) => {
     setSelectedItem(item.name);
   };
 
   // Function to apply gradient on text if the item is selected
-  const getNavItemClasses = (item : NavbarItem) => {
+  const getNavItemClasses = (item: NavbarItem) => {
     return `cursor-pointer font-inter text-[14px] font-bold leading-[21px] text-left p-2 ${
-      selectedItem === item.name
-        ? 'text-gradient'
-        : 'hover:text-gray-400'
+      selectedItem === item.name ? "text-gradient" : "hover:text-gray-400"
     }`;
   };
 
@@ -48,7 +54,6 @@ const NavBar = () => {
   //main HTML content
   return (
     <nav className="bg-black fixed w-full h-[88px] flex items-center justify-between px-4 py-6 z-50">
-      
       <div className="flex items-center space-x-20 md:space-x-12">
         {/* Logo */}
         <Image src={logo} alt="Logo" width={28} height={30} />
@@ -87,7 +92,11 @@ const NavBar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`absolute top-[88px] left-0 w-full bg-black text-white transition-transform ${navOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div
+        className={`absolute top-[88px] left-0 w-full bg-black text-white transition-transform ${
+          navOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <ul className="flex flex-col items-center space-y-4 py-4">
           {navItems.map((item) => (
             <li
@@ -95,7 +104,9 @@ const NavBar = () => {
               className={getNavItemClasses(item)}
               onClick={() => handleNavClick(item)}
             >
-              <Link href={item.href} onClick={toggleNav}>{item.name}</Link>
+              <Link href={item.href} onClick={toggleNav}>
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>
@@ -105,6 +116,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-
- 

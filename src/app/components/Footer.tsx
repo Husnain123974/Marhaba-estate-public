@@ -1,4 +1,4 @@
-
+'use client'
 
 import React from 'react';
 import facebookSVG from '../../../public/icons/facebook.svg';
@@ -8,8 +8,19 @@ import twitterSVG from '../../../public/icons/twitter.svg';
 import logo from '../../../public/images/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from "next/navigation"; // Import the hook
 
 const Footer: React.FC = () => {
+
+    // Check if the current route includes 'admin'
+    const pathname = usePathname();
+    const isAdminRoute = pathname.includes("admin");
+  
+    // Do not render NavBar if on an admin route
+    if (isAdminRoute) {
+      return null;
+    }
+
   return (
     <footer className="bg-[#1E1E1E] rounded-[24px] text-white py-4">
       <div className="container mx-auto flex justify-between items-center px-6">
