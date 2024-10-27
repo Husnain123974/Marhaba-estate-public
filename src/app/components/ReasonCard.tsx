@@ -1,11 +1,4 @@
-
-
-
-interface Reason {
-  number: string;
-  title: string;
-  description: string;
-}
+import { Reason } from "@/types/propertyTypes";
 
 export default function ReasonCard({ reason }: { reason: Reason }) {
   return (

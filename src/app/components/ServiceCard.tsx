@@ -1,13 +1,7 @@
 
 import { FC } from 'react';
 import Image, { StaticImageData } from 'next/image';
-
-
-interface ServiceCardProps {
-  icon: StaticImageData | string;
-  title: string;
-  description: string; 
-}
+import { ServiceCardProps } from '@/types/propertyTypes';
 
 const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description }) => {
   return (

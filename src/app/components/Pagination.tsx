@@ -2,12 +2,8 @@ import React from "react";
 import next from "../../../public/icons/pagination-next.svg";
 import back from "../../../public/icons/pagination-back.svg";
 import Image from "next/image";
+import { PaginationProps } from "@/types/propertyTypes";
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
 
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,

@@ -9,114 +9,14 @@ import { Modal } from "../components/Modal";
 
 
 import { DeleteModal } from '../components/DeleteModal'; // Import the DeleteModal component
+import { fetchFromApi } from "@/utils/apiClient";
 
 const ProjectsPage = () => {
-  const headers = ["Title", "Price", "Name", "Location", "Bed Rooms", "Size", "Payment Plan", "Completion Date", "Description"];
+  const headers = ["Name", "Price", "Builders", "Location", "Bed Rooms", "Size", "Payment Plan", "Completion Date", "Description"];
   
-  // Sample data
-  const initialData = [
-    {
-      title: "Luxury Villa",
-      price: "$1,500,000",
-      name: "Ocean Breeze",
-      location: "California",
-      bedrooms: "5",
-      size: "5000 sqft",
-      payment_plan: "Installments",
-      project_completion_date: "2024-12-01",
-      description: "A beautiful ocean-side villa with modern amenities."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-    {
-      title: "City Apartment",
-      price: "$750,000",
-      name: "Downtown Living",
-      location: "New York",
-      bedrooms: "3",
-      size: "2000 sqft",
-      payment_plan: "Cash",
-      project_completion_date: "2023-08-15",
-      description: "A cozy apartment located in the heart of the city."
-    },
-  ];
+ 
 
-  const [data, setData] = useState(initialData); // State to store data
+  const [data, setData] = useState([]); // State to store data
   const [selectedRows, setSelectedRows] = useState<number[]>([]); // Track selected rows
   const [isModalOpen, setIsModalOpen] = useState(false); // Edit modal state
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Delete modal state
@@ -149,27 +49,43 @@ const ProjectsPage = () => {
   };
 
  
+  // const handleEditOrCreateProject = async (projectData: any) => {
+  //   try {
+  //     const response = await fetch('/api/manageProjects', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ ...projectData, isEditMode }),
+  //     });
+
+  //     const result = await response.json();
+
+  //     if (response.ok) {
+  //       console.log(result.message);
+  //     } else {
+  //       console.error(result.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error saving project:', error);
+  //   }
+  // };
+
   const handleEditOrCreateProject = async (projectData: any) => {
     try {
-      const response = await fetch('/api/manageProjects', {
+      // Use the fetchFromApi client to call the API with the required endpoint and options
+      const result = await fetchFromApi('/api/manageProjects', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...projectData, isEditMode }),
+        body: { ...projectData, isEditMode },
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log(result.message);
-      } else {
-        console.error(result.message);
-      }
+  
+      // Handle the response
+      console.log(result.message);
     } catch (error) {
       console.error('Error saving project:', error);
     }
   };
+  
 
   
 
@@ -197,6 +113,31 @@ const ProjectsPage = () => {
   useEffect(() => {
     setSelectedRowData(data);
   }, [data]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetchFromApi('/api/manageProjects', { method: 'GET' });
+        // const mappedData = result.data.map(project => ({
+        //   builders: project.builders, 
+        //   price: `$${parseInt(project.price).toLocaleString()}`,
+        //   name: project.name,   
+        //   location: project.location,
+        //   bedrooms: project.bedrooms,
+        //   area: `${project.area} sqft`, // Adding 'sqft' suffix to size
+        //   paymentplan: project.paymentplan, // Mapping 'paymentplan' to 'payment_plan'
+        //   projectcompletiondate: project.projectcompletiondate, // Using 'projectcompletiondate' directly
+        //   description: project.description
+        // }));
+        setData(result.data);  
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
 
   return (
     <div>

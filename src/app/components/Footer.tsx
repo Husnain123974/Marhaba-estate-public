@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation"; // Import the hook
 
 const Footer: React.FC = () => {
 
-    // Check if the current route includes 'admin'
+   
     const pathname = usePathname();
     const isAdminRoute = pathname.includes("admin");
   

@@ -11,7 +11,7 @@ export const fetchFromApi = async (endPoint: string, options: FetchOptions ) => 
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
     const apiUrl = `http${process.env.NODE_ENV === 'development' ? '' : 's'}://${baseUrl}${endPoint}`;
 
- 
+   console.log("API URL -------------------------------- ",apiUrl)
     const response = await fetch(apiUrl, {
       method: options.method,
       headers: {

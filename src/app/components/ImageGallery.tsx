@@ -1,17 +1,10 @@
 'use client'
-import Img1 from "../../../public/images/detail-main-img.png"
-import Img2 from "../../../public/images/detail-img-2.png"
-import Img3 from "../../../public/images/detail-img-3.png"
+ 
+import { ImageGalleryProps } from "@/types/propertyTypes";
 import leftArrow from "../../../public/icons/back-arrow.svg"
 import rightArrow from "../../../public/icons/next.svg"
-import Image, { StaticImageData } from 'next/image';
+import Image  from 'next/image';
 import { useState } from "react";
- 
-
-interface ImageGalleryProps {
-  largeImage: string | StaticImageData ;
-  smallImages: string[] | StaticImageData[];
-}
 
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ largeImage, smallImages }) => {
@@ -47,11 +40,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ largeImage, smallImages }) 
     }, 300);
   };
 
-  const images = [
-    { src: Img1, alt: "Detail Main Image" },
-    { src: Img2, alt: "Detail Image 2" },
-    { src: Img3, alt: "Detail Image 3" },
-  ];
+  const images = smallImages.map((img)=>{
+    return   { src: img, alt: "Detail Image" }
+  });
+   
 
   return (
     <div className="text-white p-4 bg-[rgba(30,30,30,1)] rounded-[12px]">
@@ -90,7 +82,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ largeImage, smallImages }) 
               className="w-full h-full object-cover rounded-lg"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl">
-              12+ photos
+              {smallImages.length}+ photos
             </div>
           </div>
         </div>

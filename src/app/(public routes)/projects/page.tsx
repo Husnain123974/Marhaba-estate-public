@@ -1,118 +1,144 @@
  
 "use client";
+import { useEffect, useRef, useState } from "react";
 import SearchBar from "../../components/SearchBar";
 import PropertyCard from "../../components/PropertyCard";
-import property1 from "../../../../public/images/property-1.png";
-import property2 from "../../../../public/images/property-2.png";
-import property3 from "../../../../public/images/property-3.png";
 import mapSVG from "../../../../public/icons/map.svg";
 import downArrow from "../../../../public/icons/downarrow.svg";
 import stack from "../../../../public/icons/stack.svg";
 import Image from "next/image";
 import ContactForm from "@/app/components/ContactForm";
-import { useState } from "react";
 import Pagination from "@/app/components/Pagination";
-
-// These are hard coded values, will remove once done with backend
-const properties = [
-  {
-    id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Imtiaz Properties',
-    price: 'AED 1.5 Million',
-    name: 'Beach Walk Residence',
-    location: 'Jumeirah Village Circle (JVC), Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property1,  
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655441000',
-    title: 'Binghatti Developer',
-    price: 'AED 900K',
-    name: 'Binghatti Royale',
-    location: 'Jumeirah Village Circle (JVC), Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property2,   
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655442000',
-    title: 'Iman Developer',
-    price: 'AED 1.2 Million',
-    name: 'One Sky Park',
-    location: 'JVC, Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property3,   
-  },
-  {
-    id: '550e8400-e29b-41g4-a716-446655441000',
-    title: 'Goraya Developer',
-    price: 'AED $900',
-    name: 'Binghatti Royale',
-    location: 'Jumeirah Village Circle (JVC), Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property2,   
-  },
-  {
-    id: '550e8400-e29b-41g4-a716-446655447000',
-    title: 'Ati Developer',
-    price: 'AED $900',
-    name: 'Binghatti Royale',
-    location: 'Jumeirah Village Circle (JVC), Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property2,   
-  },
-  {
-    id: '550e8400-e29b-41g4-a716-446655448000',
-    title: 'Husiqa Developer',
-    price: 'AED $900',
-    name: 'Binghatti Royale',
-    location: 'Jumeirah Village Circle (JVC), Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property2,   
-  },
-  {
-    id: '550e8400-e29b-41g4-a716-446655449000',
-    title: 'Sono Developer',
-    price: 'AED $900',
-    name: 'Binghatti Royale',
-    location: 'Jumeirah Village Circle (JVC), Dubai',
-    bedrooms: '1 & 2',
-    size: '500 to 1500',
-    paymentPlan: '30/70',
-    image: property1,   
-  },
-];
+import { fetchFromApi } from "@/utils/apiClient";
+import { HttpMethod } from "@/types/enums";
+import { toCamelCase } from "@/utils/utils";
+import { Project } from "@/types/propertyTypes";
+const options = { method: "GET" as HttpMethod };
 
 
 
 export default function Projects() {
+  
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5;
+  const [totalPages, setTotalPages] = useState(1);
+  const [projectType, setSelectedPrjectType] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>("");
+  const projectsCache = useRef<{ [key: number]: any[] }>({}); 
+  const [sortOption, setSortOption] = useState<string>("Most Recent");
 
+
+  const pageSize = 10;
+ 
+
+  const getProjectsEndpoint = () => {
+    return `${process.env.NEXT_PUBLIC_PROJECTS_ENDPOINT}`;
+  };
+
+ 
+
+  const getQuery = (endPoint: string, page: number) => {
+    return `${endPoint}?page=${page}&pageSize=${pageSize}${
+      projectType ? `&projectType=${projectType}` : ""
+    }${searchText ? `&searchText=${searchText}` : ""}&sort=${sortOption}`;
+  };
+  
+
+
+
+  const fetchProjects = async (page: number) => {
+    if (projectsCache.current[page]) {
+      setProjects(projectsCache.current[page]);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const endPoint = getProjectsEndpoint();
+      const query = getQuery(endPoint, page);
+      console.log("QUry at FE ---------- ",query);
+      console.log("Sortr Option at FE ---------- ",sortOption);
+      
+      const response = await fetchFromApi(query, options);
+      const { data, total } = response;
+
+      if (data) {
+        const camelCaseData = toCamelCase(data);
+        setProjects(camelCaseData);
+        projectsCache.current[page] = camelCaseData; // Cache the fetched data
+        setTotalPages(Math.ceil(total / pageSize));
+      }
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+ 
+
+  const resetAndFetch = () => {
+    projectsCache.current = {}; // Clear cache
+    setProjects([]); // Clear projects list
+    setCurrentPage(1); // Reset to the first page
+    fetchProjects(1); // Fetch the first page with new filters
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    resetAndFetch();
+  }, [projectType, searchText, sortOption]);
+
+  useEffect(() => {
+
+    if (projectsCache.current[currentPage]) {
+      setProjects(projectsCache.current[currentPage]);
+      setLoading(false);
+      return;
+    }
+
+    if (currentPage > 1 || projectsCache.current[1] == null) {
+      fetchProjects(currentPage);
+    }
+  }, [currentPage]);
+
+
+
+ 
+   
+ 
+ 
   const handlePageChange = (page: number) => {
+
     setCurrentPage(page);
   };
+
+
+const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  setLoading(true);
+  console.log("EVENT -------- ",event.target.value);
+  setSortOption(event.target.value);
+};
+
+
   return (
     <div className="bg-black pt-[13vh] px-[3rem]">
       <div>
+        
         {/* Search bar */}
-        <SearchBar />
+        <SearchBar
+          setSelectedPropertyType={setSelectedPrjectType}
+          setSearchText={setSearchText}
+        />
+
         <div className="pt-5">
           <div className="w-full">
             {/* Header Section */}
             <div className="flex items-center justify-between  p-5">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white">Our Projects</h2>
+              <h2 className="text-2xl sm:text-4xl font-bold text-white">
+                Our Projects
+              </h2>
               <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
                 {/* Map View Button */}
                 <button className="flex items-center space-x-2 text-gradient px-4 py-2 rounded-full border-2 border-[#B58D40] hover:bg-transparent hover:text-[#B58D40] transition duration-300">
@@ -129,10 +155,10 @@ export default function Projects() {
                   <select
                     className="w-full h-[3rem] appearance-none bg-transparent text-white text-sm font-medium pl-10 pr-10 rounded-[12px] hover:bg-transparent hover:text-[#B58D40] transition duration-300 cursor-pointer"
                     style={{ border: "1px solid rgba(197, 201, 208, 0.3)" }}
+                    onChange={handleSortChange}
                   >
                     <option>Most Recent</option>
                     <option>Oldest First</option>
-                    <option>Most Popular</option>
                   </select>
                   {/* Dropdown Arrow */}
                   <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
@@ -144,9 +170,29 @@ export default function Projects() {
 
             {/* Cards Section */}
             <div className="grid grid-cols-1 673px:grid-cols-1  sm:grid-cols-2 1160px:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
-              {properties.map((property, index) => (
-                <PropertyCard key={index} property={property} />
-              ))}
+              {/* {projects.map((project, index) => (
+                <PropertyCard key={index} property={project} />
+              ))} */}
+
+                {loading
+                    ? Array.from({ length: pageSize }).map((_, index) => (
+                        <div key={index} className="w-full">
+                          {/* Skeleton card structure */}
+                          <div className="w-full h-52 bg-gray-100 animate-pulse rounded-[24px]"></div>
+                          <div className="h-4 mt-4 bg-gray-100 animate-pulse rounded-[24px]"></div>
+                          <div className="h-4 w-[70%] mt-4 bg-gray-100 animate-pulse rounded-[24px]"></div>
+                        </div>
+                      ))
+                      
+                      : projects.length === 0 ? (
+                        <div className="text-gradient text-center text-white text-xl font-semibold py-10">
+                          No Projects Found
+                        </div>
+                      )
+                      
+                      :  projects.map((project, index) => (
+                        <PropertyCard key={index} property={project} />
+                      ))}
             </div>
 
             {/* add pagination here  */}

@@ -24,8 +24,8 @@ type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const amenities = [
   { value: "jacuzzi", label: "Jacuzzi" },
-  { value: "cctv_cameras", label: "CCTV Cameras" },
-  { value: "children_play_area", label: "Children Play Area" },
+  { value: "CCTV Cameras", label: "CCTV Cameras" },
+  { value: "Children Play Area", label: "Children Play Area" },
   { value: "covered_parking", label: "Covered Parking" },
   { value: "landmark_view", label: "Landmark View" },
   { value: "community_center", label: "Community Center" },
@@ -61,17 +61,17 @@ export function Modal({
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
- 
+  console.log("Data ---------------- ",data);
   const [formData, setFormData] = useState<any>({
     id: "", // Add ID field for UUID
-    title: "",
+    builders: "",
     price: "",
     name: "",
     location: "",
     bedrooms: "",
-    size: "",
-    payment_plan: "",
-    project_completion_date: "",
+    area: "",
+    paymentplan: "",
+    projectcompletiondate: "",
     description: "",
     isGrey: false,
     isFeatured: false,
@@ -82,19 +82,21 @@ export function Modal({
 
   // Set the form data when the modal opens or data changes
   useEffect(() => {
+    console.log("Data ----- ",data);
     if (data) {
       setFormData({ ...data }); // Populate form data for edit mode
+       
     } else if (!isEditMode) {
       setFormData({
         id: uuidv4(), // Generate UUID for new records
-        title: "",
+        builders: "",
         price: "",
         name: "",
         location: "",
         bedrooms: "",
-        size: "",
-        payment_plan: "",
-        project_completion_date: "",
+        area: "",
+        paymentplan: "",
+        projectcompletiondate: "",
         description: "",
         isGrey: false,
         isFeatured: false,
@@ -117,7 +119,7 @@ export function Modal({
   const handleDateChange = (selectedDate: Date | undefined) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      project_completion_date: selectedDate?.toISOString().split("T")[0] || "", // Convert to YYYY-MM-DD format
+      projectcompletiondate: selectedDate?.toISOString().split("T")[0] || "", // Convert to YYYY-MM-DD format
     }));
   };
 
@@ -178,12 +180,12 @@ export function Modal({
 
         <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-8 mr-[-17px]">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className=" ">
-              Title
+            <Label htmlFor="builders" className=" ">
+              Builders
             </Label>
             <Input
-              id="title"
-              value={formData.title}
+              id="builders"
+              value={formData.builders}
               onChange={handleInputChange}
               className="col-span-3"
             />
@@ -233,23 +235,23 @@ export function Modal({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="size" className=" ">
-              Size
+            <Label htmlFor="area" className=" ">
+              Area
             </Label>
             <Input
-              id="size"
-              value={formData.size}
+              id="area"
+              value={formData.area}
               onChange={handleInputChange}
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="payment_plan" className=" ">
+            <Label htmlFor="paymentplan" className=" ">
               Payment Plan
             </Label>
             <Input
-              id="payment_plan"
-              value={formData.payment_plan}
+              id="paymentplan"
+              value={formData.paymentplan}
               onChange={handleInputChange}
               className="col-span-3"
             />
@@ -295,7 +297,7 @@ export function Modal({
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="project_completion_date" className=" ">
+            <Label htmlFor="projectcompletiondate" className=" ">
               Completion Date
             </Label>
             <DatePicker onDateChange={handleDateChange} />

@@ -1,6 +1,5 @@
 'use client';
-
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { FC } from 'react';
 import bedroom from "../../../public/icons/bedroom.svg";
 import area from "../../../public/icons/area.svg";
@@ -9,24 +8,10 @@ import { useRouter } from "next/navigation";
 import { calculateAEDS } from '@/utils/utils';
 import { useDispatch } from 'react-redux';
 import { setSelectedProperty } from '@/redux/slices/propertyDetailsSlice'; // Path to your slice
+import { PropertyCardProps } from '@/types/propertyTypes';
 
 
-interface Property {
-  id: string,
-  builders: string;
-  price: string | number;
-  name: string;
-  location: string;
-  bedrooms: string;
-  area: string;
-  paymentplan: string;
-  images: StaticImageData[] | string;
-  amenities:string[];
-}
-
-interface PropertyCardProps {
-  property: Property;
-}
+ 
 
 const PropertyCard: FC<PropertyCardProps> = ({ property }) => {
   const router = useRouter();
@@ -35,9 +20,8 @@ const PropertyCard: FC<PropertyCardProps> = ({ property }) => {
   const handleClick = () => {
     // Dispatch the selected property to Redux store
     dispatch(setSelectedProperty(property));
-    
     // Navigate to the property details page
-    router.push(`/property/${property.id}`);
+    router.push(`/propertyDetails`);
   };
 
 
@@ -82,7 +66,7 @@ const PropertyCard: FC<PropertyCardProps> = ({ property }) => {
 
           <div className="flex items-center space-x-1">
             <Image src={payment} alt='payment plan' />
-            <span className="text-base sm:text-sm">{property.paymentplan}</span>
+            <span className="text-base sm:text-sm">{property.paymentPlan}</span>
           </div>
         </div>
       </div>

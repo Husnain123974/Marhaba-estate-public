@@ -1,89 +1,69 @@
 "use client";
 import { useEffect, useState } from "react";
 import PropertyCard from "./PropertyCard";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import nextSVG from "../../../public/icons/next.svg";
 import backSVG from "../../../public/icons/back-arrow.svg";
-import { PropertyType } from "@/utils/PropertyEnums";
+import { HttpMethod, PropertyType } from "@/types/enums";
 import { fetchFromApi } from "@/utils/apiClient";
-
- 
-// Define types for the properties and the component props
-type Property = {
-  id: string;
-  title: string;
-  price: string;
-  name: string;
-  location: string;
-  bedrooms: string;
-  area: string;
-  paymentplan: string;
-  images: string | StaticImageData[];
-  builders: string;
-};
-
-type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-
-interface PropertiesProps {
-  source: string;
-  headerText: string;
-  propertyType:string;
-  searchText:string;
-}
-
-
+import { PropertiesProps, Property } from "@/types/propertyTypes";
+import { toCamelCase } from "@/utils/utils";
 
 const Properties: React.FC<PropertiesProps> = ({
   source,
   headerText,
   propertyType,
-  searchText
+  searchText,
 }) => {
-  const [properties, setProperties] = useState<Property[]>([]); // Use Property[] type for the state
+  const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page for pagination
-  const [totalPages, setTotalPages] = useState(1); // Store the total number of pages
-  const pageSize = 6; // Number of properties to fetch per page
-  const visibleCardsCount = 3; // Number of cards to show at a time
-  const [currentIndex, setCurrentIndex] = useState(0); // Track current visible card index
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 6;
+  const visibleCardsCount = 3;
+  const [currentIndex, setCurrentIndex] = useState(0);
   const options = { method: "GET" as HttpMethod };
 
-    const getEndPoint = () :string =>{
+  const getEndPoint = (): string => {
     return (
       source === PropertyType.Featured
         ? process.env.NEXT_PUBLIC_FEATURED_PROPERTIES_ENDPOINT
         : process.env.NEXT_PUBLIC_GREYSTRUCTURES_PROPERTIES_ENDPOINT
     ) as string;
-  }
-
-
-  const getQuery = (endPoint: string, page: number) => {
-    return  `${endPoint}?page=${page}&pageSize=${pageSize}${
-      propertyType ? `&propertyType=${propertyType}` : ""
-    }${searchText ? `&searchText=${searchText}` : ""}`;
-    
   };
 
- 
+  const getQuery = (endPoint: string, page: number) => {
+    return `${endPoint}?page=${page}&pageSize=${pageSize}${
+      propertyType ? `&propertyType=${propertyType}` : ""
+    }${searchText ? `&searchText=${searchText}` : ""}`;
+  };
 
-  // Fetch properties with pagination
+  
+
   const fetchProperties = async (page: number) => {
     try {
       const endPoint: string = getEndPoint();
       const query = getQuery(endPoint, page);
       const response = await fetchFromApi(query, options);
 
-      // Ensure response contains 'data' and 'total'
       const { data, total } = response;
 
+      
       if (data) {
-        // Replace properties if it's the first page, otherwise append
+        const camelCaseData = toCamelCase(data);
+        
         setProperties((prevProperties) =>
-          page === 1 ? data : [...prevProperties, ...data.filter(
-              (newProp) => !prevProperties.some((prop) => prop.id === newProp.id)
-            )]
-        ); // Filter out duplicate properties
-        setTotalPages(Math.ceil(total / pageSize)); // Calculate total pages
+          page === 1
+            ? camelCaseData
+            : [
+                ...prevProperties,
+                ...camelCaseData.filter(
+                  (newProp) =>
+                    !prevProperties.some((prop) => prop.id === newProp.id)
+                ),
+              ]
+        );
+        setTotalPages(Math.ceil(total / pageSize));
       }
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -92,31 +72,23 @@ const Properties: React.FC<PropertiesProps> = ({
     }
   };
 
-  // Reset properties and page index when filter (propertyType) changes
   useEffect(() => {
-    console.log("Search chnaged   -------------------- ", searchText);
     setLoading(true);
-    setProperties([]); // Clear the old properties when the filter changes
-    console.log("Props =--------------------> ",properties);
-    console.log("Props =--------------------> ",visibleProperties);
-    
-    setCurrentPage(1); // Reset the page to 1 when filter changes
-    setCurrentIndex(0); // Reset the index to 0
-    fetchProperties(1); // Fetch new properties from the first page
-  }, [propertyType,searchText, source]); // Add source if needed
+    setProperties([]);
+    setCurrentPage(1);
+    setCurrentIndex(0);
+    fetchProperties(1);
+  }, [propertyType, searchText, source]);
 
   // Fetch new page of properties when currentPage changes (pagination)
   useEffect(() => {
-    console.log("Page code is running ... ")
-      setLoading(true);
-      if (currentPage > 1) {
-        fetchProperties(currentPage); // Fetch new page's properties without clearing old ones
-      }
+    setLoading(true);
+    if (currentPage > 1) {
+      fetchProperties(currentPage);
+    }
   }, [currentPage]);
 
- 
-
-    const handleNext = () => {
+  const handleNext = () => {
     // Move to the next visible cards
     if (currentIndex + visibleCardsCount < properties.length) {
       setCurrentIndex((prevIndex) => prevIndex + visibleCardsCount);
@@ -178,6 +150,13 @@ const Properties: React.FC<PropertiesProps> = ({
                 <div className="h-4 w-[70%] mt-4 bg-gray-100 animate-pulse rounded-[24px]"></div>
               </div>
             ))
+            : properties.length === 0 ? (
+              <div className="text-gradient text-center text-white text-xl font-semibold py-10">
+                {source === PropertyType.Featured
+                  ? "No Property Found"
+                  : "No Grey Structure Found"}
+              </div>
+            )
           : visibleProperties.map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}

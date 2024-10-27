@@ -2,14 +2,9 @@
 import Image, { StaticImageData } from 'next/image';
 import Rating from '@mui/material/Rating';  
 import { styled } from '@mui/system';
+import { RatingProps } from '@/types/propertyTypes';
 
-interface RatingProps {
-  stars: number;
-  review: string;
-  reviewerName: string;
-  reviewerLocation: string;
-  reviewerImage: StaticImageData | string; 
-}
+
 
 const CustomRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
