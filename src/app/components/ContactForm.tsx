@@ -9,7 +9,7 @@ const defaultTitle = (
   </>
 );
 
-const ContactForm = ({
+const ContactForm = ({ 
   isShowMessage = false,
   headingText = "",
 }: ContactFormProps) => { 
