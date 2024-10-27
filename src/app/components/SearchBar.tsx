@@ -2,20 +2,62 @@
 
 import Image from "next/image";
 import searchSVG from "../../../public/icons/search.svg";
+import { PropertyType } from "@/types/enums";
+import { useState } from "react";
+import { SearchSectionProps } from "@/types/propertyTypes";
 
-export default function SearchBar() {
+
+const SearchBar : React.FC<SearchSectionProps> = ({
+  setSelectedPropertyType,
+  setSearchText,
+})=> {
+
+  const propertyTypes: PropertyType[] = [
+    PropertyType.Apartment,
+    PropertyType.Home,
+    PropertyType.Office,
+    PropertyType.Penthouse,
+    PropertyType.Villa,
+    PropertyType.Commercial,
+    PropertyType.Plot,
+    PropertyType.Industrial,
+    PropertyType.Warehouse,
+    PropertyType.Farmhouse,
+    PropertyType.Shop,
+  ];
+
+  const [searchInput, setSearchInput] = useState<string>("");
+
+  const handlePropertyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value as PropertyType;
+    setSelectedPropertyType(selectedValue);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    setSearchText(e.target.value);
+  };
+  
+
+
     return (
         <div className="flex items-center bg-[#141416] rounded-[16px] border border-white/15 overflow-hidden max-w-8xl w-full shadow-md">
-        <select className="bg-[#141416] text-[#AEAEAE] p-3 md:p-4 border-r border-gray-700 outline-none text-sm md:text-base">
-          <option value="">Property Type</option>
-          <option value="apartment">Apartment</option>
-          <option value="house">House</option>
-          <option value="office">Office</option>
+        <select className="bg-[#141416] text-[#AEAEAE] p-3 md:p-4 border-r border-gray-700 outline-none text-sm md:text-base"
+        onChange={handlePropertyChange}
+        >
+           <option value="">Property Type</option>
+            {propertyTypes.map((propertyType) => (
+              <option key={propertyType} value={propertyType}>
+                {propertyType}
+              </option>
+            ))}
         </select>
 
         <input
           type="text"
           placeholder="Search for the city, community"
+          value={searchInput}
+          onChange={handleSearchChange}
           className="bg-[#141416] flex-1 p-2 md:p-4 text-[#AEAEAE] placeholder-gray-400 outline-none text-sm md:text-base"
           style={{ minWidth: "50px" }} 
         />
@@ -27,3 +69,5 @@ export default function SearchBar() {
     );
 }
 
+
+export default SearchBar;

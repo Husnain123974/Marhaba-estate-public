@@ -33,20 +33,20 @@ export async function POST(req: Request) {
         .insert([
           {
             id: projectData.id,  // Ensure UUID is included
-            title: projectData.title,
+            builders: projectData.builders,
             price: projectData.price,
             name: projectData.name,
             location: projectData.location,
             bedrooms: projectData.bedrooms,
-            size: projectData.size,
-            payment_plan: projectData.payment_plan,
-            project_completion_date: projectData.project_completion_date,
+            area: projectData.area,
+            paymentplan: projectData.paymentplan,
+            projectcompletiondate: projectData.projectcompletiondate,
             description: projectData.description,
-            is_grey_structure: projectData.isGrey, // Mapping to 'is_grey_structure' from form
-            is_featured: projectData.isFeatured,   // Mapping to 'is_featured' from form
+            isgreystructure: projectData.isGrey, // Mapping to 'is_grey_structure' from form
+            isfeatured: projectData.isFeatured,   // Mapping to 'is_featured' from form
             amenities: projectData.amenities,      // Array of amenities
             images: projectData.images,             // Store the URLs of uploaded images
-            type: projectData.propertyType         // Property type
+            propertytype: projectData.propertyType         // Property type
           },
         ]);
 
@@ -65,27 +65,19 @@ export async function POST(req: Request) {
 
 
 export async function GET(req: Request) {
-  console.log("GET -------------");
-  const { searchParams } = new URL(req.url);
-  console.log("PARAMS -------------",searchParams);
-  const projectId = searchParams.get('id');
-
-  if (!projectId) {
-    return NextResponse.json({ message: 'Project ID is required' }, { status: 400 });
-  }
-
+ 
+ 
   try {
     const { data, error } = await supabase
       .from('projects')
       .select('*')
-      .eq('id', projectId)
-      .single();
+ 
 
     if (error) {
       throw error;
     }
 
-    console.log("data ------------------------- ",data);
+    console.log("Proj aho  ------------------------- ",data);
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error: any) {

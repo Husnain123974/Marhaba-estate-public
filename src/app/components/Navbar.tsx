@@ -13,9 +13,11 @@ const NavBar = () => {
   // Check if the current route includes 'admin'
   const pathname = usePathname();
   const isAdminRoute = pathname.includes("admin");
+  const isLogin = pathname.includes("login");
+  
 
   // Do not render NavBar if on an admin route
-  if (isAdminRoute) {
+  if (isAdminRoute || isLogin ) {
     return null;
   }
 

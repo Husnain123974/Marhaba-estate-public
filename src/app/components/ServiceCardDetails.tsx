@@ -3,15 +3,10 @@
 import Image, { StaticImageData } from 'next/image';
 import benefitSVG from '../../../public/icons/benefit.svg';
 import outcomeSVG from '../../../public/icons/outcomes.svg';
+import { ServiceCardDetilsProps } from '@/types/propertyTypes';
 
-interface CardProps {
-  title: string;
-  image: StaticImageData | string;
-  benefits: string[];
-  outcomes: string[];
-}
 
-const ServiceCardDetails: React.FC<CardProps> = ({ title, image, benefits, outcomes }) => {
+const ServiceCardDetails: React.FC<ServiceCardDetilsProps> = ({ title, image, benefits, outcomes }) => {
   return (
     <div className="relative bg-[#1E1E1E] text-white shadow-lg w-full max-w-[52rem] rounded-[20px] opacity-100 mx-auto">
       {/* Card Image */}

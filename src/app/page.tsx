@@ -5,7 +5,7 @@ import WhyChooseUs from "./components/WhyChooseUs";
 import Services from "./components/Services";
 import Ratings from "./components/Ratings";
 import ContactForm from "./components/ContactForm";
-import { PropertyType } from "@/utils/PropertyEnums";
+import { PropertyType } from "@/types/enums";
 import { useState } from "react";
 
 export default function Home() {
@@ -13,7 +13,6 @@ export default function Home() {
   const [searchText, setSearchText] = useState<string>("");
 
   const onChangeProperty = (data: any) => {
-
     setSelectedPropertyType(data);
   };
 
@@ -58,9 +57,7 @@ export default function Home() {
         <div className="pt-10">
           <ContactForm />
         </div>
-  
       </div>
-      
     </div>
   );
 }
