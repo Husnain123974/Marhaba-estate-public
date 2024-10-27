@@ -12,7 +12,7 @@ const defaultTitle = (
 const ContactForm = ({
   isShowMessage = false,
   headingText = "",
-}: ContactFormProps) => {
+}: ContactFormProps) => { 
   
   const [country, setCountry] = useState("ae");
   const [message, setMessage] = useState("");
