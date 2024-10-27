@@ -5,7 +5,9 @@ import type { NextRequest } from 'next/server';
 import { fetchFromApi } from './utils/apiClient';
 
  
- 
+export const config = {
+  matcher: '/api/:path*'
+  }
 const protectedRoutes = ["/admin/projects/" , "/admin/properties/","/admin/"];
 
 export default async function middleware(req: NextRequest) {
