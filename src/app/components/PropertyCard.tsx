@@ -21,7 +21,7 @@ const PropertyCard: FC<PropertyCardProps> = ({ property }) => {
     // Dispatch the selected property to Redux store
     dispatch(setSelectedProperty(property));
     // Navigate to the property details page
-    router.push(`/property/${property.id}`);
+    router.push(`/propertyDetails`);
   };
 
 

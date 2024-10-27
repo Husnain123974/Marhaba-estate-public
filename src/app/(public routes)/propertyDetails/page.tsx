@@ -1,9 +1,9 @@
 'use client';   
 import { useEffect, useState } from 'react';
 import Image from "next/image";
-import nextSVG from "../../../../../public/icons/next.svg";
-import backSVG from "../../../../../public/icons/back-arrow.svg";
-import goldenCheckSVG from "../../../../../public/icons/golden-tick.svg";
+import nextSVG from "../../../../public/icons/next.svg";
+import backSVG from "../../../../public/icons/back-arrow.svg";
+import goldenCheckSVG from "../../../../public/icons/golden-tick.svg";
 import PropertyInfo from "@/app/components/PropertyInfoCard";
 import EnquiryForm from "@/app/components/EnquiryForm";
 import ImageGallery from "@/app/components/ImageGallery";
