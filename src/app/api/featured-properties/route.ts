@@ -46,10 +46,17 @@ export async function GET(req: Request) {
 
     console.log("Filtered properties data ------------------------- ", data);
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       { data, total: count, page, pageSize },
       { status: 200 }
     );
+  
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+    return response;
+    
   } catch (error: any) {
     return NextResponse.json(
       { message: 'Failed to fetch properties', error: error.message },
