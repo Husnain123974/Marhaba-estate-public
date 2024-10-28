@@ -81,9 +81,9 @@ const NavBar = () => {
           </div>
         </Link>
 
-        <div className="flex items-center justify-center bg-[#222222] rounded-full w-10 h-10">
+        {/* <div className="flex items-center justify-center bg-[#222222] rounded-full w-10 h-10">
           <Image src={contactSVG} alt="contact-us" />
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Menu Toggle */}

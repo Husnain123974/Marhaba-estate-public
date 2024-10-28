@@ -15,9 +15,13 @@ import {
 
  
 
-export function DatePicker({ onDateChange }) {
+export function DatePicker({ selectedDate, onDateChange }) {
     const [date, setDate] = React.useState<Date>()
   
+    React.useEffect(() => {
+      setDate(selectedDate);
+    }, [selectedDate]);
+    
     // Handle date change and emit it to the parent component
     const handleDateChange = (selectedDate: Date | undefined) => {
       setDate(selectedDate)

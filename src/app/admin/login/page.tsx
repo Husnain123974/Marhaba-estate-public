@@ -65,6 +65,7 @@ import { fetchFromApi } from "@/utils/apiClient";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { cookies } from "next/headers";
 
 
 export default function LoginPage() {
@@ -116,7 +117,13 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    const token  =  Cookies.get('authToken');
+    
+    const isUserAuthenticated = !!token;
+    console.log("IsAuth --- ",isUserAuthenticated);
+
+
+    if (isUserAuthenticated) {
       router.push("/admin/projects"); // Redirect if already authenticated
     }
   }, [isAuthenticated, router]);

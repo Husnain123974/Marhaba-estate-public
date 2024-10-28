@@ -17,12 +17,13 @@ export async function POST(request: Request) {
     });
 
     // Define email options
-    const mailOptions = {
-      from: process.env.MAIL_FROM,        
-      to: process.env.MAIL_TO || 'recipient@example.com',   
-      subject: `New message from ${name}`,  
-      text: `Message : ${message}`,  
-    };
+      
+      const mailOptions = {
+        from: process.env.MAIL_FROM,        
+        to: process.env.MAIL_TO || 'recipient@example.com',   
+        subject: `New message from ${name}`,  
+        text: `Client Email: ${email}\nMessage: ${message}`,  
+      };
 
     // Send the email
     await transporter.sendMail(mailOptions);

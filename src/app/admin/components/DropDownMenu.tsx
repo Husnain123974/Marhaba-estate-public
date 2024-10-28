@@ -36,9 +36,9 @@ const frameworks = [
 
  
 
-export function CustomDropdownMenu({ onSelectPropertyType }) {
-    const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
+export function CustomDropdownMenu({ selectedValue, onSelectPropertyType }) {
+    const [open, setOpen] = React.useState(false);
+    const [value, setValue] = React.useState("");
   
     const handleSelect = (currentValue : any) => {
       const newValue = currentValue === value ? "" : currentValue
@@ -46,6 +46,11 @@ export function CustomDropdownMenu({ onSelectPropertyType }) {
       setOpen(false)
       onSelectPropertyType(newValue) // Emit the value to parent
     }
+
+    React.useEffect(() => {
+      setValue(selectedValue);
+    }, [selectedValue]);
+  
   
     return (
       <Popover open={open} onOpenChange={setOpen}>

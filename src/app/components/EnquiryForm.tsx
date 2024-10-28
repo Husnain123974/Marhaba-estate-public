@@ -16,7 +16,8 @@ const EnquiryForm = () => {
         </button>
         <button className="bg-[rgba(29,136,33,1)] flex items-center justify-center space-x-2 px-4 py-2 rounded-[40px] w-10 h-10 md:w-auto md:h-auto md:px-4">
           <Image src={Whatsapp} alt="WhatsApp" width={20} height={20} />
-          <span className="text-white 1000:hidden inline">WHATSAPP</span>  
+          <span className="text-white 1000:hidden inline"><a href="https://wa.me/971509981850" target="_blank">WhatsApp</a>
+ </span>  
         </button>
       </div>
 

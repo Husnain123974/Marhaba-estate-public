@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
-const JWT_EXPIRATION = '1h'; // Adjust expiration as needed
+const JWT_EXPIRATION = '7d'; // Adjust expiration as needed
 
 export async function POST(req: Request) {
   try {

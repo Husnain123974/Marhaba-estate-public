@@ -24,20 +24,21 @@ type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const amenities = [
   { value: "jacuzzi", label: "Jacuzzi" },
-  { value: "CCTV Cameras", label: "CCTV Cameras" },
-  { value: "Children Play Area", label: "Children Play Area" },
+  { value: "cctv_cameras", label: "CCTV Cameras" },
+  { value: "children_play_area", label: "Children Play Area" },
   { value: "covered_parking", label: "Covered Parking" },
   { value: "landmark_view", label: "Landmark View" },
   { value: "community_center", label: "Community Center" },
   { value: "supermarket_nearby", label: "Supermarket Nearby" },
   { value: "shared_gym", label: "Shared Gym" },
   { value: "kitchen_appliances", label: "Kitchen Appliances" },
-  { value: "shared_swimming_pool", label: "Shared swimming pool" },
+  { value: "shared_swimming_pool", label: "Shared Swimming Pool" },
   { value: "supermarket_nearby1", label: "Supermarket Nearby1" },
   { value: "shared_gym1", label: "Shared Gym1" },
   { value: "kitchen_appliances1", label: "Kitchen Appliances1" },
-  { value: "shared_swimming_pool1", label: "Shared swimming pool1" },
+  { value: "shared_swimming_pool1", label: "Shared Swimming Pool1" },
 ];
+
 
 console.log(amenities);
 
@@ -73,45 +74,61 @@ export function Modal({
     paymentplan: "",
     projectcompletiondate: "",
     description: "",
-    isGrey: false,
-    isFeatured: false,
+    isgreystructure: false,
+    isfeatured: false,
     amenities: [],
     images: [],
-    propertyType: "", // Add property type to the form data
+    propertytype: "", // Add property type to the form data
   });
 
-  // Set the form data when the modal opens or data changes
-  useEffect(() => {
-    console.log("Data ----- ",data);
-    if (data) {
-      setFormData({ ...data }); // Populate form data for edit mode
-       
-    } else if (!isEditMode) {
-      setFormData({
-        id: uuidv4(), // Generate UUID for new records
-        builders: "",
-        price: "",
-        name: "",
-        location: "",
-        bedrooms: "",
-        area: "",
-        paymentplan: "",
-        projectcompletiondate: "",
-        description: "",
-        isGrey: false,
-        isFeatured: false,
-        amenities: [],
-        images: [],
-        propertyType: "", // Add property type to the form data
-      });
+// Modify useEffect
+useEffect(() => {
+  console.log("Data ----- ", data);
+  if (data) {
+    // Populate form data for edit mode
+    setFormData({ ...data });
+    
+    // Set amenities if data is coming for edit mode
+    if (data.amenities && Array.isArray(data.amenities)) {
+      const selectedAmenities = amenities
+        .filter((amenity) => data.amenities.includes(amenity.value))
+        .map((amenity) => amenity.value);
+      console.log("Selected amenities ------ ",selectedAmenities);
+      setSelectedAmenities(selectedAmenities); // Set selected amenities in the state
+      setFormData((prevData: any) => ({
+        ...prevData,
+        amenities: selectedAmenities, // Update formData with selected amenities
+      }));
     }
-  }, [data, isEditMode]);
+    console.log("Form Data ")
+  } else if (!isEditMode) {
+    // Set initial values for new entry mode
+    setFormData({
+      id: uuidv4(), // Generate UUID for new records
+      builders: "",
+      price: "",
+      name: "",
+      location: "",
+      bedrooms: "",
+      area: "",
+      paymentplan: "",
+      projectcompletiondate: "",
+      description: "",
+      isgreystructure: false,
+      isfeatured: false,
+      amenities: [],
+      images: [],
+      propertytype: "", // Add property type to the form data
+    });
+  }
+}, [data, isEditMode]);
+
 
   // Handle the selected property type from child component
   const handleSelectPropertyType = (selectedType: any) => {
     setFormData((prevFormData: any) => ({
       ...prevFormData,
-      propertyType: selectedType,
+      propertytype: selectedType,
     }));
   };
 
@@ -140,14 +157,14 @@ export function Modal({
   const handleIsGreyChange = (value: string) => {
     setFormData((prevData: any) => ({
       ...prevData,
-      isGrey: value === "yes", // Set isGrey to true if 'yes' is selected, otherwise false
+      isgreystructure: value === "yes", // Set isGrey to true if 'yes' is selected, otherwise false
     }));
   };
 
   const handleIsFeaturedChange = (value: string) => {
     setFormData((prevData: any) => ({
       ...prevData,
-      isFeatured: value === "yes", // Set isFeatured to true if 'yes' is selected, otherwise false
+      isfeatured: value === "yes", // Set isFeatured to true if 'yes' is selected, otherwise false
     }));
   };
 
@@ -300,7 +317,7 @@ export function Modal({
             <Label htmlFor="projectcompletiondate" className=" ">
               Completion Date
             </Label>
-            <DatePicker onDateChange={handleDateChange} />
+            <DatePicker  selectedDate={formData.projectcompletiondate} onDateChange={handleDateChange} />
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
@@ -311,6 +328,7 @@ export function Modal({
             <div className="col-span-3">
               <CustomDropdownMenu
                 onSelectPropertyType={handleSelectPropertyType}
+                selectedValue={formData.propertytype}
               />
             </div>
           </div>
@@ -323,7 +341,7 @@ export function Modal({
             <div className="col-span-3">
               <RadioGroup
                 className="grid grid-cols-4 items-center gap-4"
-                defaultValue={formData.isGrey ? "yes" : "no"}
+                defaultValue={formData.isgreystructure ? "yes" : "no"}
                 onValueChange={handleIsGreyChange} // Add onChange handler
               >
                 <div className="flex items-center space-x-2">
@@ -347,7 +365,7 @@ export function Modal({
             <div className="col-span-3">
               <RadioGroup
                 className="grid grid-cols-4 items-center gap-4"
-                defaultValue={formData.isFeatured ? "yes" : "no"}
+                defaultValue={formData.isfeatured ? "yes" : "no"}
                 onValueChange={handleIsFeaturedChange} // Add onChange handler
               >
                 <div className="flex items-center space-x-2">

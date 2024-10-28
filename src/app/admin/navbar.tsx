@@ -1,6 +1,6 @@
  
 'use client'; 
-
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { FiLogOut } from 'react-icons/fi'; // For logout icon
 
@@ -9,7 +9,10 @@ const Navbar = () => {
 
   const handleLogout = () => {
     // Logic to logout user
-    router.push('/login');
+   Cookies.remove('authToken');
+   Cookies.remove('user');
+   
+    router.push('/admin/login/');
   };
 
   return (

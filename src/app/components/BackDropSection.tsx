@@ -15,7 +15,7 @@ interface BackDropSectionContentProps {
 
 const BackDropSectionContent: React.FC<BackDropSectionContentProps> = ({ title }) => {
   return (
-    <div className="relative flex flex-col items-center justify-center h-[50vh] bg-black text-white overflow-hidden">
+    <div className="pt-20 relative flex flex-col items-center justify-center h-[50vh] bg-black text-white overflow-hidden">
       {/* Yellow blurred circles */}
       <div className="absolute bg-yellow-500 rounded-full h-[25rem] w-[25rem] blur-3xl opacity-20 top-10 left-10"></div>
       <div className="absolute bg-yellow-500 rounded-full h-[18rem] w-[18rem] blur-2xl opacity-25 top-40 right-20"></div>

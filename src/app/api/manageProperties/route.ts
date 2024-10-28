@@ -4,34 +4,33 @@ import supabase from "@/config/supabase";
  
 
 export async function POST(req: Request) {
-  let projectData = await req.json();
-
-  projectData = JSON.parse(projectData)
+  let propertiesData = await req.json();
+   propertiesData = JSON.parse(propertiesData)
   try {
     let response;
-    console.log("Backend Properties  endpoint --------- ",projectData);
+    console.log("Backend Properties  endpoint --------- ",propertiesData);
  
  
       // Insert a new project
       const { data, error } = await supabase
-        .from('projects')
+        .from('properties')
         .insert([
           {
-            id: projectData.id,  // Ensure UUID is included
-            builders: projectData.builders,
-            price: projectData.price,
-            name: projectData.name,
-            location: projectData.location,
-            bedrooms: projectData.bedrooms,
-            area: projectData.area,
-            paymentplan: projectData.paymentplan,
-            projectcompletiondate: projectData.projectcompletiondate,
-            description: projectData.description,
-            isgreystructure: projectData.isGrey, // Mapping to 'is_grey_structure' from form
-            isfeatured: projectData.isFeatured,   // Mapping to 'is_featured' from form
-            amenities: projectData.amenities,      // Array of amenities
-            images: projectData.images,             // Store the URLs of uploaded images
-            propertytype: projectData.propertyType         // Property type
+            id: propertiesData.id,  // Ensure UUID is included
+            builders: propertiesData.builders,
+            price: propertiesData.price,
+            name: propertiesData.name,
+            location: propertiesData.location,
+            bedrooms: propertiesData.bedrooms,
+            area: propertiesData.area,
+            paymentplan: propertiesData.paymentplan,
+            projectcompletiondate: propertiesData.projectcompletiondate,
+            description: propertiesData.description,
+            isgreystructure: propertiesData.isgreystructure, // Mapping to 'is_grey_structure' from form
+            isfeatured: propertiesData.isfeatured,   // Mapping to 'is_featured' from form
+            amenities: propertiesData.amenities,      // Array of amenities
+            images: propertiesData.images,             // Store the URLs of uploaded images
+            propertytype: propertiesData.propertytype         // Property type
           },
         ]);
 
@@ -54,7 +53,7 @@ export async function PUT(req: Request) {
   console.log("Project Dta -------- ", projectData);
   try {
     const { data, error } = await supabase
-      .from('projects')
+      .from('properties')
       .update({
         id: projectData.id,
         builders: projectData.builders,
@@ -98,13 +97,13 @@ export async function DELETE(req: Request) {
   try {
   // Delete the projects with the specified IDs
   const { data, error } = await supabase
-  .from('projects')
+  .from('properties')
   .delete()
   .in('id', ids);
 
 if (error) throw error;
 
-    return NextResponse.json({ message: 'Project deleted successfully', data ,status:200 }, { status: 200 });
+    return NextResponse.json({ message: 'Property deleted successfully', data ,status:200 }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ message: 'Failed to delete project', error: error.message }, { status: 500 });
   }
@@ -115,7 +114,7 @@ export async function GET(req: Request) {
  
   try {
     const { data, error } = await supabase
-      .from('projects')
+      .from('properties')
       .select('*')
  
 
@@ -123,7 +122,7 @@ export async function GET(req: Request) {
       throw error;
     }
 
-   
+  
     return NextResponse.json({ data }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(

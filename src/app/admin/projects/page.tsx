@@ -10,6 +10,8 @@ import { Modal } from "../components/Modal";
 
 import { DeleteModal } from '../components/DeleteModal'; // Import the DeleteModal component
 import { fetchFromApi } from "@/utils/apiClient";
+import { ChevronDownSquare } from "lucide-react";
+import { selectClasses } from "@mui/material";
 
 const ProjectsPage = () => {
   const headers = ["Name", "Price", "Builders", "Location", "Bed Rooms", "Size", "Payment Plan", "Completion Date", "Description"];
@@ -25,6 +27,7 @@ const ProjectsPage = () => {
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null); // Index of the row to delete
 
   const handleSelectionChange = (selectedIndexes: number[]) => {
+    console.log("Selected indxes - ------ ", selectedIndexes);
     setSelectedRows(selectedIndexes);
   };
 
@@ -71,15 +74,30 @@ const ProjectsPage = () => {
   //   }
   // };
 
+  // const handleEditOrCreateProject = async (projectData: any) => {
+  //   try {
+  //     // Use the fetchFromApi client to call the API with the required endpoint and options
+  //     // const result = await fetchFromApi('/api/manageProjects', {
+  //     //   method: 'POST',
+  //     //   body: { ...projectData, isEditMode },
+  //     // });
+  
+  //     // Handle the response
+  //     // console.log(result.message);
+  //   } catch (error) {
+  //     console.error('Error saving project:', error);
+  //   }
+  // };
+
   const handleEditOrCreateProject = async (projectData: any) => {
     try {
-      // Use the fetchFromApi client to call the API with the required endpoint and options
+      console.log("Before save data to db -------- ",projectData);
+      const method = isEditMode ? 'PUT' : 'POST';
       const result = await fetchFromApi('/api/manageProjects', {
-        method: 'POST',
-        body: { ...projectData, isEditMode },
+        method,
+        body: JSON.stringify(projectData),
       });
   
-      // Handle the response
       console.log(result.message);
     } catch (error) {
       console.error('Error saving project:', error);
@@ -87,24 +105,79 @@ const ProjectsPage = () => {
   };
   
 
-  
-
   const handleDeleteClick = () => {
-    if (selectedRows.length === 1) {
+ 
+    if (selectedRows.length >0) {
+      console.log("Selected rows ------ ", selectedRows)
       setDeleteIndex(selectedRows[0]); // Track the index of the row to delete
       setIsDeleteModalOpen(true); // Open delete modal
     }
   };
 
-  const handleDeleteProject = () => {
-    if (deleteIndex !== null) {
-      const updatedData = [...data];
-      updatedData.splice(deleteIndex, 1); // Remove the selected Project
-      setData(updatedData); // Update the data
+  // const handleDeleteProject = () => {
+  //   if (deleteIndex !== null) {
+  //     const updatedData = [...data];
+  //     updatedData.splice(deleteIndex, 1); // Remove the selected Project
+  //     setData(updatedData); // Update the data
+  //     setSelectedRows([]); // Clear selection
+  //     setIsDeleteModalOpen(false); // Close the delete modal
+  //   }
+  // };
+
+
+
+ 
+// const handleDeleteProject = async () => {
+//   try {
+//     const projectId = data[deleteIndex]?.id;
+//     // Send DELETE request to the backend with projectId
+//     const result = await fetchFromApi(`/api/manageProjects`, {
+//       method: 'DELETE',
+//       body: JSON.stringify({ id: projectId }),
+//     });
+
+//     console.log(result);
+
+//     if (result.status === 200) {
+//       // Update frontend state after deletion
+
+//       const updatedData = data.filter((item) => item.id !== projectId);
+//       setData(updatedData); // Update the data array
+//       setSelectedRows([]); // Clear selection
+//       setIsDeleteModalOpen(false); // Close the delete modal
+//     }
+//   } catch (error) {
+//     console.error('Error deleting project:', error);
+//   }
+// };
+
+const handleDeleteProject = async () => {
+  try {
+ 
+    
+    // Get IDs of selected projects
+    const projectIds = selectedRows.map((index) => data[index]?.id);
+    console.log("Ids ----- ", projectIds);
+    // Send DELETE request to the backend with projectIds
+    const result = await fetchFromApi(`/api/manageProjects`, {
+      method: 'DELETE',
+      body: JSON.stringify({ ids: projectIds }), // Send array of IDs for multiple deletes
+    });
+
+    console.log(result);
+
+    if (result.status === 200) {
+      // Update frontend state after deletion
+      const updatedData = data.filter((item) => !projectIds.includes(item.id));
+      setData(updatedData); // Update the data array
       setSelectedRows([]); // Clear selection
       setIsDeleteModalOpen(false); // Close the delete modal
     }
-  };
+  } catch (error) {
+    console.error('Error deleting projects:', error);
+  }
+};
+
 
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(false); // Close delete modal without action
