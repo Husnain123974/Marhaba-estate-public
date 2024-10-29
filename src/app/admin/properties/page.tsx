@@ -1,6 +1,4 @@
  
-
-
 'use client'
 import { DataTable } from "../components/DataTable";
 import { useEffect, useState } from 'react';
@@ -12,8 +10,8 @@ import { Modal } from "../components/Modal";
 
 import { DeleteModal } from '../components/DeleteModal'; // Import the DeleteModal component
 import { fetchFromApi } from "@/utils/apiClient";
-import { ChevronDownSquare } from "lucide-react";
-import { selectClasses } from "@mui/material";
+ 
+import withAuth from "@/utils/withAuth";
 
 const PropertiesPage = () => {
   const headers = ["Builders", "Price", "Name", "Location", "Bed Rooms", "Size", "Payment Plan", "Completion Date", "Description"];
@@ -53,43 +51,7 @@ const PropertiesPage = () => {
     setSelectedRowData(null); // Clear selected row data on close
   };
 
- 
-  // const handleEditOrCreateProject = async (projectData: any) => {
-  //   try {
-  //     const response = await fetch('/api/manageProjects', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ ...projectData, isEditMode }),
-  //     });
-
-  //     const result = await response.json();
-
-  //     if (response.ok) {
-  //       console.log(result.message);
-  //     } else {
-  //       console.error(result.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error saving project:', error);
-  //   }
-  // };
-
-  // const handleEditOrCreateProject = async (projectData: any) => {
-  //   try {
-  //     // Use the fetchFromApi client to call the API with the required endpoint and options
-  //     // const result = await fetchFromApi('/api/manageProjects', {
-  //     //   method: 'POST',
-  //     //   body: { ...projectData, isEditMode },
-  //     // });
   
-  //     // Handle the response
-  //     // console.log(result.message);
-  //   } catch (error) {
-  //     console.error('Error saving project:', error);
-  //   }
-  // };
 
   const handleEditOrCreateProject = async (projectData: any) => {
     try {
@@ -115,43 +77,7 @@ const PropertiesPage = () => {
       setIsDeleteModalOpen(true); // Open delete modal
     }
   };
-
-  // const handleDeleteProject = () => {
-  //   if (deleteIndex !== null) {
-  //     const updatedData = [...data];
-  //     updatedData.splice(deleteIndex, 1); // Remove the selected Project
-  //     setData(updatedData); // Update the data
-  //     setSelectedRows([]); // Clear selection
-  //     setIsDeleteModalOpen(false); // Close the delete modal
-  //   }
-  // };
-
-
-
  
-// const handleDeleteProject = async () => {
-//   try {
-//     const projectId = data[deleteIndex]?.id;
-//     // Send DELETE request to the backend with projectId
-//     const result = await fetchFromApi(`/api/manageProjects`, {
-//       method: 'DELETE',
-//       body: JSON.stringify({ id: projectId }),
-//     });
-
-//     console.log(result);
-
-//     if (result.status === 200) {
-//       // Update frontend state after deletion
-
-//       const updatedData = data.filter((item) => item.id !== projectId);
-//       setData(updatedData); // Update the data array
-//       setSelectedRows([]); // Clear selection
-//       setIsDeleteModalOpen(false); // Close the delete modal
-//     }
-//   } catch (error) {
-//     console.error('Error deleting project:', error);
-//   }
-// };
 
 const handleDeleteProject = async () => {
   try {
@@ -193,17 +119,7 @@ const handleDeleteProject = async () => {
     const fetchData = async () => {
       try {
         const result = await fetchFromApi('/api/manageProperties', { method: 'GET' });
-        // const mappedData = result.data.map(project => ({
-        //   builders: project.builders, 
-        //   price: `$${parseInt(project.price).toLocaleString()}`,
-        //   name: project.name,   
-        //   location: project.location,
-        //   bedrooms: project.bedrooms,
-        //   area: `${project.area} sqft`, // Adding 'sqft' suffix to size
-        //   paymentplan: project.paymentplan, // Mapping 'paymentplan' to 'payment_plan'
-        //   projectcompletiondate: project.projectcompletiondate, // Using 'projectcompletiondate' directly
-        //   description: project.description
-        // }));
+        
 
         setData(result.data);  
       } catch (error) {
@@ -273,8 +189,4 @@ const handleDeleteProject = async () => {
   );
 };
 
-export default PropertiesPage;
-
-
- 
-  
+export default withAuth(PropertiesPage);

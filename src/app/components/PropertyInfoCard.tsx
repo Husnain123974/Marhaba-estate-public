@@ -20,11 +20,15 @@ const PropertyInfo = ({property}:{property:Property}) => {
           <h2 className="text-4xl md:text-3xl sm:text-xl 673px:text-sm font-bold">AED {calculateAEDS(property)}</h2>
         </div>
         <div className="flex space-x-4">
-          <button className=" flex items-center space-x-2 text-gradient 440:px-2 px-4 py-2 sm:px-2 sm:py-1 rounded-full border-2 border-[#B58D40] hover:bg-transparent hover:text-[#B58D40] transition duration-300 text-sm md:text-xs sm:text-xs">
+          <button className=" flex items-center space-x-2 text-gradient 440:px-2 px-4 py-2 sm:px-2 sm:py-1 rounded-full border-2 border-[#B58D40] hover:bg-transparent hover:text-[#B58D40] transition duration-300 text-sm md:text-xs sm:text-xs"
+          onClick={() => window.open(property.pdfUrl, "_blank")}
+          >
             <Image src={download} alt="map" className="h-5 w-5" />
             <span className='440:text-[8px]' >BROCHURE</span>
           </button>
-          <button className="flex items-center space-x-2 text-gradient 440:px-2  px-4 py-2 sm:px-2 sm:py-1 rounded-full border-2 border-[#B58D40] hover:bg-transparent hover:text-[#B58D40] transition duration-300 text-sm md:text-xs sm:text-xs">
+          <button className="flex items-center space-x-2 text-gradient 440:px-2  px-4 py-2 sm:px-2 sm:py-1 rounded-full border-2 border-[#B58D40] hover:bg-transparent hover:text-[#B58D40] transition duration-300 text-sm md:text-xs sm:text-xs"
+           onClick={() => window.open(property.pdfUrl, "_blank")}
+          >
             <Image src={download} alt="map" className="h-5 w-5" />
             <span className='440:text-[8px] ' >FLOOR PLANS</span>
           </button>

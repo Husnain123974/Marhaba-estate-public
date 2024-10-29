@@ -9,10 +9,10 @@ export async function POST(req: Request) {
  console.log("Helow verify ----------------- ");
 
     // Retrieve the token from the request body
-    const { token } = await req.json();
+    let request = await req.json();
+    const {token} = JSON.parse(request);
 
-
-    console.log("backend token   ----------------- ");
+    console.log("backend token   ----------------- ",token);
 
 
     if (!token) {

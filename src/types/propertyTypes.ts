@@ -17,6 +17,7 @@ export interface Property {
   isGreyStructure: boolean;
   amenities: string[];
   description: string;
+  pdfUrl:string;
 }
 
 export interface Project {

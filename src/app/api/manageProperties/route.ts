@@ -30,7 +30,8 @@ export async function POST(req: Request) {
             isfeatured: propertiesData.isfeatured,   // Mapping to 'is_featured' from form
             amenities: propertiesData.amenities,      // Array of amenities
             images: propertiesData.images,             // Store the URLs of uploaded images
-            propertytype: propertiesData.propertytype         // Property type
+            propertytype: propertiesData.propertytype,
+            pdfUrl:propertiesData.pdfUrl.publicUrl       // Property type
           },
         ]);
 

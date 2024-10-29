@@ -7,17 +7,13 @@ import editSVG from "../../../../public/icons/edit.svg";
 import deleteSVG from "../../../../public/icons/delete.svg";
 import { Modal } from "../components/Modal";
 
-
 import { DeleteModal } from '../components/DeleteModal'; // Import the DeleteModal component
 import { fetchFromApi } from "@/utils/apiClient";
-import { ChevronDownSquare } from "lucide-react";
-import { selectClasses } from "@mui/material";
+import withAuth from "@/utils/withAuth";
 
 const ProjectsPage = () => {
-  const headers = ["Name", "Price", "Builders", "Location", "Bed Rooms", "Size", "Payment Plan", "Completion Date", "Description"];
+const headers = ["Name", "Price", "Builders", "Location", "Bed Rooms", "Size", "Payment Plan", "Completion Date", "Description"];
   
- 
-
   const [data, setData] = useState([]); // State to store data
   const [selectedRows, setSelectedRows] = useState<number[]>([]); // Track selected rows
   const [isModalOpen, setIsModalOpen] = useState(false); // Edit modal state
@@ -270,7 +266,4 @@ const handleDeleteProject = async () => {
   );
 };
 
-export default ProjectsPage;
-
-
- 
+export default withAuth(ProjectsPage);

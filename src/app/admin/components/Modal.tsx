@@ -12,9 +12,11 @@ import { useState, useEffect } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { MultiSelect } from "../components/MultiSelect";
 import { v4 as uuidv4 } from "uuid"; // Import UUID generator
+import supabase from "@/config/supabase";
 
 import * as React from "react";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import { nanoid } from "nanoid";
 
 import { CustomDropdownMenu } from "./DropDownMenu";
 import { DatePicker } from "./DatePicker";
@@ -61,6 +63,7 @@ export function Modal({
 }: EditModalProps) {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [pdfFile, setPdfFile] = useState<File | null>(null); // Add state for PDF file
 
   console.log("Data ---------------- ",data);
   const [formData, setFormData] = useState<any>({
@@ -79,6 +82,7 @@ export function Modal({
     amenities: [],
     images: [],
     propertytype: "", // Add property type to the form data
+    pdfUrl:""
   });
 
 // Modify useEffect
@@ -119,6 +123,7 @@ useEffect(() => {
       amenities: [],
       images: [],
       propertytype: "", // Add property type to the form data
+      pdfUrl:""
     });
   }
 }, [data, isEditMode]);
@@ -131,6 +136,13 @@ useEffect(() => {
       propertytype: selectedType,
     }));
   };
+
+  const handlePDFFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setPdfFile(event.target.files[0]); // Set the selected PDF file
+    }
+  };
+
 
   // Handle date change from DatePicker and update formData
   const handleDateChange = (selectedDate: Date | undefined) => {
@@ -177,11 +189,89 @@ useEffect(() => {
     }));
   };
 
-  const handleSave = () => {
-    // Handle save logic here (e.g., API call, state update)
-    onEditOrCreateProject(formData);
-    console.log(isEditMode ? "Edited Data:" : "Added Data:", formData);
-    onClose(); // Close the modal after saving
+
+
+
+  // Function to upload PDF to Supabase and call /api/uploadfloorplan
+  const uploadPdfAndSave = async () => {
+    if (pdfFile) {
+      try {
+        const uniqueId = nanoid();
+        const fileName = `${uniqueId}#floorplans.pdf`;
+        const { data, error: uploadError } = await supabase.storage
+          .from("nextsupabase")
+          .upload(fileName, pdfFile, { cacheControl: "3600", upsert: false });
+
+        if (uploadError) {
+          console.error("PDF Upload Error:", uploadError);
+          return;
+        }
+
+        const { data:publicUrl  } = supabase.storage
+          .from("nextsupabase")
+          .getPublicUrl(data.path);
+
+         
+        // const response = await fetch("/api/uploadfloorplan", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     propertyId: formData.id,
+        //     pdfUrl: publicUrl,
+        //   }),
+        // });
+
+        // if (!response.ok) {
+        //   throw new Error("Failed to save PDF URL in database");
+        // }
+
+        console.log("PDF uploaded and URL saved successfully:", publicUrl);
+        return publicUrl;
+      } catch (error) {
+        console.error("Error uploading PDF or saving URL:", error);
+      }
+    }
+  };
+
+  // const handleSave = async () => {
+  //   // Upload PDF and get public URL
+  //   const publicUrl = await uploadPdfAndSave();
+    
+  //   // Add the public URL to formData
+  //   setFormData((prevFormData:any) => ({
+  //     ...prevFormData,
+  //     pdfUrl: publicUrl, // Add the PDF URL to formData
+  //   }));
+  
+  //   // Call onEditOrCreateProject with updated formData
+  //   onEditOrCreateProject({ ...formData, pdfUrl: publicUrl });
+  
+  //   console.log(isEditMode ? "Edited Data:" : "Added Data:", formData);
+    
+  //   onClose(); // Close the modal after saving
+  // };
+
+
+  const handleSave = async () => {
+    // Upload PDF and get public URL
+    const publicUrl = await uploadPdfAndSave();
+    
+    if (publicUrl) {
+      // Create a temporary updated formData object with the pdfUrl
+      const updatedFormData = { ...formData, pdfUrl: publicUrl };
+  
+      // Call onEditOrCreateProject with the updated formData
+      onEditOrCreateProject(updatedFormData);
+  
+      console.log(isEditMode ? "Edited Data:" : "Added Data:", updatedFormData);
+  
+      // Close the modal after saving
+      onClose();
+    } else {
+      console.error("Failed to upload PDF and get URL.");
+    }
   };
 
   const handleCancel = () => {
@@ -311,6 +401,20 @@ useEffect(() => {
             <div className="col-span-3">
             <FileUpload formData={formData} setFormData={setFormData} />
             </div>
+          </div>
+
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="pdf_upload" className=" ">
+              Upload Floorplan PDF
+            </Label>
+            <Input
+              type="file"
+              id="pdf_upload"
+              onChange={handlePDFFileChange}
+              accept=".pdf"
+              className="col-span-3"
+            />
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
